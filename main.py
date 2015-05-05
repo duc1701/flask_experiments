@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, flash
-from wtforms import Form, BooleanField, TextField, IntegerField, Field
+from wtforms import Form, BooleanField, TextField, IntegerField, Field, FieldList
 from wtforms import widgets
 
 app = Flask(__name__)
@@ -74,7 +74,7 @@ def make_form():
         ('text', 'Last Name'),
         ('email', 'Email Address'),
         ('number', 'Years Teaching'),
-        ('sum', 'Some question text', ('Apples', 'Oranges')),
+        ('sum', 'Some question text', ('Apples', 'Oranges', 'Grapes')),
     ]
 
     labels = {}
@@ -86,18 +86,13 @@ def make_form():
             field = EmailField(a[1])
         if a[0] == 'number':
             field = NumberField(a[1])
+        if a[0] == 'sum':
+            field = FieldList(IntegerRangeField(a[2][0], default='0'), min_entries=len(a[2]))
+            print field
 
         if field != None:
             field_name = 'field_' + str(i)
             setattr(AssessmentForm, field_name, field)
-
-        if a[0] == 'sum':
-            for (j, r) in enumerate(a[2]):
-                field = IntegerRangeField(r, default='0')
-                setattr(AssessmentForm, 'range_' + str(i) + '_' + str(j), field)
-
-                if j ==0:
-                    field.section_text = a[1]
 
     return AssessmentForm(request.form)
 

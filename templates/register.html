@@ -12,12 +12,6 @@
   <dl>
       <dt>{{ test }}
     {% for field in form %}
-      {{ field.type }} <br/>
-      {% if field.type == 'IntegerRangeField' %}
-        {% if field.section_text %}
-          {{ field.section_text }}<br/>
-        {% endif %}
-      {% endif %}
       <dt>{{ field.label }}
       <dd>{{ field()|safe }}
       {% if field.errors %}
