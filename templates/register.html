@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+</head>
+<body>
+
+<form method=post action="/register">
+  <dl>
+      <dt>{{ test }}
+    {% for field in form %}
+      {{ field.type }} <br/>
+      {% if field.type == 'IntegerRangeField' %}
+        {% if field.section_text %}
+          {{ field.section_text }}<br/>
+        {% endif %}
+      {% endif %}
+      <dt>{{ field.label }}
+      <dd>{{ field()|safe }}
+      {% if field.errors %}
+        <ul class=errors>
+        {% for error in field.errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+      </dd>
+    {% endfor %}
+  </dl>
+  <p><input type=submit value=Register>
+</form>
+
+</body>
